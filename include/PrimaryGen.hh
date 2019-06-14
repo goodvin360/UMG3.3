@@ -1,5 +1,5 @@
-#define OuterSpectra
-//#define SingleEnergy
+//#define OuterSpectra
+#define SingleEnergy
 
 #ifndef CPROJECT_PRIMARYGEN_HH
 #define CPROJECT_PRIMARYGEN_HH
@@ -28,6 +28,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdio.h>
+#include "CommandMessenger.hh"
 
 
 #include "math.h"
@@ -38,6 +39,7 @@ class G4ParticleGun;
 class G4Event;
 class PrimaryGenMessenger1;
 class PrimaryGenMessenger2;
+class PrimaryGenMessenger3;
 
 class PrimaryGen : public G4VUserPrimaryGeneratorAction
 {
@@ -50,6 +52,8 @@ private:
    PrimaryGenMessenger1 * primarygenmessenger1;
 
    PrimaryGenMessenger2 * primarygenmessenger2;
+
+   PrimaryGenMessenger3 * primarygenmessenger3;
 
 
 #ifdef OuterSpectra
@@ -71,6 +75,15 @@ private:
     {
         Step = newValue;
     }
+
+    void SetNewPatEn(G4double newValue)
+    {
+        U = newValue;
+        gun->SetParticleEnergy(U*MeV);
+
+    }
+
+    G4double U = 0.1;
 
     G4String outerspectrapath = "/home/user/CLionProjects/UMG3.3/Fission(100bin).txt";
 

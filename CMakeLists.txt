@@ -19,7 +19,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
-add_executable(UMG3.3 main.cc ${sources} ${headers} include/PrimaryGenMessenger.hh src/PrimaryGenMessenger.cc)
+add_executable(UMG3.3 main.cc ${sources} ${headers} include/PrimaryGenMessenger.hh src/PrimaryGenMessenger.cc include/CommandMessenger.hh src/CommandMessenger.cc)
 target_link_libraries(UMG3.3 ${Geant4_LIBRARIES})
 
 
@@ -28,6 +28,7 @@ set(EXAMPLEB1_SCRIPTS
   init_vis.mac
   vis.mac
         run.mac
+        run1.mac
         )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})

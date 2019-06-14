@@ -22,7 +22,7 @@ G4VPhysicalVolume* DetGeometry::Construct(){
 
     G4double size = 1*m;
 
-    G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
+    G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
     G4Box* solidWorld =
       new G4Box("World",

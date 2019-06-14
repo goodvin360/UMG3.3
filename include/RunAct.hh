@@ -8,10 +8,13 @@
 #include "Run.hh"
 #include "EventAct.hh"
 #include <map>
+#include "CommandMessenger.hh"
 
 using namespace std;
 
 class G4Run;
+class RunActMessenger;
+
 
 
 class RunAct : public G4UserRunAction {
@@ -35,6 +38,10 @@ public:
     double w = 13.1;
     double F = 220;
 
+    void SetNewResPath(G4String newPath);
+
+    G4String foldername = "/mnt/hgfs/VMplayer/UMG3.3/Res_1.txt";
+
 
 private:
 
@@ -43,6 +50,8 @@ private:
     std::map <G4double, G4int> *result2;
 
     std::map <G4double, G4int> *result3;
+
+    RunActMessenger*runactMessenger;
 
 };
 

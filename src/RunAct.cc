@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <map>
+#include "CommandMessenger.hh"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ RunAct::RunAct()
 
     result3 = new std::map<G4double, G4int>;
 
+    runactMessenger = new RunActMessenger(this);
 
 }
 
@@ -27,6 +29,9 @@ RunAct::~RunAct()
     delete result2;
 
     delete result3;
+
+    delete runactMessenger;
+
 
 
 }
@@ -90,7 +95,7 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
         infile1 >> E >> Cnt;
         Energy[i] = E;
         Counts[i] = Cnt;
-        Counts[0] = 0;
+        Counts[0] = 0.001;
         Energy[0] = 0.01;
     }
 
@@ -164,6 +169,15 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
         fout3.close();
 
 
+    fstream fout4(foldername, ios::out);
+    for (int i = 0; i < nStep; i++) {
+
+        fout4 << NormCounts[i] << '\n';
+    }
+    fout4.close();
+
+
+
     for (int i = 0; i < nStep; i++) { delete[] P1[i]; }
 
     delete [] Energy;
@@ -171,6 +185,60 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
     delete [] NormCounts;
     delete [] NormCounts_1;
     delete [] Sigma;
+
+    int Nchan = nStep;
+
+    double *counts = new double[Nchan];
+
+    double *countsSum = new double[Nchan];
+
+    for (int i=1; i<=Nchan; i++)
+    {
+        countsSum[i]=0;
+    }
+
+
+    char label1 [ ] = "/mnt/hgfs/VMplayer/UMG3.3/Res_";
+
+
+
+    char OutPath[256];
+    sprintf (OutPath, "%s%i%s", label1, 1, "_Sum_Output.txt");
+
+    fstream fout5 (OutPath, ios::out);
+
+    char SpectraPath [256];
+
+    for (int j=1; j<=Nchan; j++)
+    {
+        sprintf (SpectraPath, "%s%i%s", label1, j, ".txt");
+
+        ifstream readFile;
+        readFile.open(SpectraPath);
+
+        double count =0;
+
+        for (int i=0; i<Nchan; i++)
+        {
+            readFile >> count;
+            counts[i] = count;
+            countsSum[j] +=counts[i];
+        }
+        readFile.close();
+
+    }
+
+    fstream fout6(OutPath, ios::out);
+
+    for (int j=1; j<=Nchan; j++)
+    {
+        fout6 << countsSum[j] << endl;
+    }
+    fout6.close();
+
+    delete [] counts;
+    delete [] countsSum;
+
 
 }
 
@@ -195,5 +263,10 @@ void RunAct::AddEvent3(G4double energy3)
 
 }
 
+void RunAct::SetNewResPath(G4String newPath) {
+
+    foldername = newPath;
+
+}
 
 
