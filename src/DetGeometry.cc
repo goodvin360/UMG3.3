@@ -165,7 +165,7 @@ logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
     Rcnt=1.5;
     dcnt=0.1;
     Hcnt=11;
-    dshld=5;
+    dshld=19;
 
     Xsrc=0, Ysrc=0, Zsrc=(Rtube+6);
     Xtube=0, Ytube=0, Ztube=0;
@@ -294,25 +294,25 @@ logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
 
     // create an SOURSE
 
-    G4ThreeVector Source_pos = G4ThreeVector(Xsrc*cm, Ysrc*cm, Zsrc*cm);
-
-    G4Tubs*Source = new G4Tubs("Source", 0*cm, 1.6*cm, 1.6*cm, 0*deg, 360*deg);
-
-    G4LogicalVolume*logicSource = new G4LogicalVolume(Source, Void_mat, "Source");
-//    G4LogicalVolume*logicSource = new G4LogicalVolume(Source, nist->FindOrBuildMaterial("G4_Galactic"), "Source");
-
-    G4VisAttributes*logicVisSource = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0));
-
-    logicSource->SetVisAttributes(logicVisSource);
-
-
-    new G4PVPlacement(myRotation,
-                      Source_pos,
-                      logicSource,
-                      "Source",
-                      logicWorld,
-                      false,
-                      0);
+//    G4ThreeVector Source_pos = G4ThreeVector(Xsrc*cm, Ysrc*cm, Zsrc*cm);
+//
+//    G4Tubs*Source = new G4Tubs("Source", 0*cm, 1.6*cm, 1.6*cm, 0*deg, 360*deg);
+//
+//    G4LogicalVolume*logicSource = new G4LogicalVolume(Source, Void_mat, "Source");
+////    G4LogicalVolume*logicSource = new G4LogicalVolume(Source, nist->FindOrBuildMaterial("G4_Galactic"), "Source");
+//
+//    G4VisAttributes*logicVisSource = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0));
+//
+//    logicSource->SetVisAttributes(logicVisSource);
+//
+//
+//    new G4PVPlacement(myRotation,
+//                      Source_pos,
+//                      logicSource,
+//                      "Source",
+//                      logicWorld,
+//                      false,
+//                      0);
 
 
 

@@ -217,12 +217,12 @@ void PrimaryGen::GeneratePrimaries(G4Event* anEvent)
 
     //set the cylindric source particle distribution
 
-    G4double R=1.5*cm;
+    G4double R=50*cm;
     G4double cosTheta1 = 2*G4UniformRand()-1., phi1 = twopi*G4UniformRand();
     G4double sinTheta1 = std::sqrt(1. - cosTheta1*cosTheta1);
     G4double ux = R*sinTheta1*std::sin(phi1),
             uy = R*cosTheta1,
-            uz = 12*cm+(2*G4UniformRand()-1)*1.5*cm;
+            uz = 15*cm;
 
     gun->SetParticlePosition(G4ThreeVector(ux,uy,uz));
 
@@ -246,17 +246,17 @@ void PrimaryGen::GeneratePrimaries(G4Event* anEvent)
 
     double dX, dY, dZ;
 
+//
+//    G4double cosTheta = G4UniformRand()-1, phi = twopi*G4UniformRand();
+//    G4double sinTheta = std::sqrt(1. - cosTheta*cosTheta);
+//    dX = sinTheta*std::cos(phi),
+//    dY = sinTheta*std::sin(phi),
+//    dZ = cosTheta;
+//
+//    gun->SetParticleMomentumDirection(G4ThreeVector(dX,dY,dZ));
 
-    G4double cosTheta = G4UniformRand()-1, phi = twopi*G4UniformRand();
-    G4double sinTheta = std::sqrt(1. - cosTheta*cosTheta);
-    dX = sinTheta*std::cos(phi),
-    dY = sinTheta*std::sin(phi),
-    dZ = cosTheta;
 
-    gun->SetParticleMomentumDirection(G4ThreeVector(dX,dY,dZ));
-
-
-//    gun->SetParticleMomentumDirection(G4ThreeVector(0,0,-1));
+    gun->SetParticleMomentumDirection(G4ThreeVector(0,0,-1));
 
 
     gun->GeneratePrimaryVertex(anEvent);
