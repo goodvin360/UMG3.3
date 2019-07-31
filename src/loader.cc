@@ -4,6 +4,7 @@
 #include "QBBC.hh"
 #include "QGSP_BIC_AllHP.hh"
 #include "G4IonINCLXXPhysics.hh"
+#include "Shielding.hh"
 G4Loader::G4Loader(int argc, char** argv){
     G4Random::setTheEngine(new CLHEP::RanecuEngine);
     CLHEP::HepRandom::setTheSeed(time(NULL));
@@ -20,7 +21,8 @@ G4Loader::G4Loader(int argc, char** argv){
     runManager->SetUserInitialization(detGeom);
 
 //    auto Phys = new QGSP_BIC_AllHP;
-    auto Phys = new QGSP_BERT_HP;
+//    auto Phys = new QGSP_BERT_HP;
+    auto Phys = new Shielding;
 //    QBBC*Phys = new QBBC;
 //    Phys->RegisterPhysics(new G4IonINCLXXPhysics);
     runManager->SetUserInitialization(Phys);

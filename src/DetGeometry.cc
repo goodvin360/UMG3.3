@@ -1,3 +1,4 @@
+/*
 //#define Tube_With_Mixture
 #define Poly
 
@@ -315,6 +316,237 @@ logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
 //                      0);
 
 
+
+    return physWorld;
+}
+*/
+
+
+#include "DetGeometry.hh"
+#include "G4VisAttributes.hh"
+#include "G4Colour.hh"
+#include "G4Color.hh"
+#include "G4RotationMatrix.hh"
+#include "G4Sphere.hh"
+#include "G4SubtractionSolid.hh"
+
+DetGeometry::DetGeometry() {
+
+}
+
+DetGeometry::~DetGeometry() {}
+
+G4VPhysicalVolume* DetGeometry::Construct(){
+
+    G4NistManager* nist = G4NistManager::Instance();
+
+    G4double size = 0.5*m;
+
+    G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
+//    G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
+
+
+    G4Box* solidWorld =
+            new G4Box("World",
+                      0.5*size, 0.5*size, 0.5*size);
+
+    G4LogicalVolume* logicWorld =
+            new G4LogicalVolume(solidWorld,
+                                world_mat,
+                                "World");
+
+//logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
+
+    G4VPhysicalVolume* physWorld =
+            new G4PVPlacement(0,
+                              G4ThreeVector(),
+                              logicWorld,
+                              "World",
+                              0,
+                              false,
+                              0);
+
+
+//Define materials
+
+    G4String name,symbol;
+    G4double abundance, aC, aF, z, ncomponents,
+            Diam_density,
+            Teflon_density,
+            temperature, pressure, fractionmass;
+    G4int nIsotopes,natoms;
+    Teflon_density = 2.2*g/cm3;
+    Diam_density = 3.5*g/cm3;
+    temperature = 300.*kelvin;
+    pressure = 1.*atmosphere;
+
+    // define diamond material from carbon atoms
+
+    aC = 12*g/mole;
+    G4Element*elC = new G4Element(name = "Carbon", symbol = "C", z = 6, aC);
+    G4Material*diam_mat = new G4Material(name = "Diamond", Diam_density, ncomponents=1, kStateSolid, temperature, pressure);
+    diam_mat->AddElement(elC, natoms = 1);
+
+    // define teflon material
+
+    aF = 18.9984*g/mole;
+    G4Element*elF = new G4Element(name = "Fluorum", symbol = "F", z = 9, aF);
+    G4Material*teflon_mat = new G4Material(name = "Teflon", Teflon_density, ncomponents=2, kStateSolid, temperature, pressure);
+    teflon_mat->AddElement(elC, natoms = 2);
+    teflon_mat->AddElement(elF, natoms = 4);
+
+    //define Aluminium material
+
+    G4Material*alum_mat = nist->FindOrBuildMaterial("G4_Al");
+
+    G4Material*diam_mat2 = nist->FindOrBuildMaterial("G4_C");
+
+    //define distances
+
+    G4double detX, detY, detZ,
+            detD, detL,
+            L_tube, dr_tube,
+            R_front, r_front, d_front;
+
+    detX = 0*cm;
+    detY = 0*cm;
+    detZ = -1*cm;
+    detL = 0.25*cm;
+    detD = 0.03*cm;
+    R_front = 0.4*cm;
+    r_front = 0.1*cm;
+    d_front = 0.05*cm;
+    L_tube = 1.5*cm;
+    dr_tube = 0.05*cm;
+
+
+    //define diamond detector
+
+    G4ThreeVector Diam_pos = G4ThreeVector(detX, detY, detZ);
+
+    G4Box*Diamond = new G4Box("Diamond", detL/2, detL/2, detD/2);
+
+    G4LogicalVolume*logicDiam = new G4LogicalVolume(Diamond, diam_mat, "Diamond");
+
+    G4VisAttributes*logicVisDiam = new G4VisAttributes(G4Colour(5, 0.5, 0.5));
+
+    logicDiam->SetVisAttributes(logicVisDiam);
+
+    new G4PVPlacement(0,
+                      Diam_pos,
+                      logicDiam,
+                      "Diamond",
+                      logicWorld,
+                      false,
+                      0);
+
+   /* G4ThreeVector Front_pos = G4ThreeVector(detX, detY, (detZ+(detD/2)+(d_front/2)));
+
+    G4Tubs*Front = new G4Tubs("Front", r_front, R_front, d_front/2, 0*deg, 360*deg);
+
+    G4LogicalVolume*logicFront = new G4LogicalVolume(Front, alum_mat, "Front");
+
+    G4VisAttributes*logicVisFront = new G4VisAttributes(G4Colour(0.7, 0.5, 5));
+
+    logicFront->SetVisAttributes(logicVisFront);
+
+    new G4PVPlacement(0,
+                      Front_pos,
+                      logicFront,
+                      "Front",
+                      logicWorld,
+                      false,
+                      0);
+
+    G4ThreeVector House_pos = G4ThreeVector(detX, detY, (detZ - (L_tube/2-(detD/2)-d_front)));
+
+    G4Tubs*House = new G4Tubs("House", R_front, R_front+dr_tube, L_tube/2, 0*deg, 360*deg);
+
+    G4LogicalVolume*logicHouse = new G4LogicalVolume(House, alum_mat, "House");
+
+    G4VisAttributes*logicVisHouse = new G4VisAttributes(G4Colour(0.7, 0.5, 5));
+
+    logicHouse->SetVisAttributes(logicVisHouse);
+
+    new G4PVPlacement(0,
+                      House_pos,
+                      logicHouse,
+                      "House",
+                      logicWorld,
+                      false,
+                      0);
+
+    G4ThreeVector det1_pos = G4ThreeVector(detX, detY, (detZ-(detD/2)-(d_front/2)));
+
+    G4Tubs*det1 = new G4Tubs("det1", 0, R_front-0.1*cm, d_front/2, 0*deg, 360*deg);
+
+    G4LogicalVolume*logicdet1 = new G4LogicalVolume(det1, alum_mat, "det1");
+
+    G4VisAttributes*logicVisdet1 = new G4VisAttributes(G4Colour(0.7, 0.5, 5));
+
+    logicdet1->SetVisAttributes(logicVisdet1);
+
+    new G4PVPlacement(0,
+                      det1_pos,
+                      logicdet1,
+                      "det1",
+                      logicWorld,
+                      false,
+                      0);
+
+    G4ThreeVector det2_pos = G4ThreeVector(detX, detY, (detZ-d_front-detD/2-(L_tube-2*d_front-detD)/2));
+
+    G4Tubs*det2 = new G4Tubs("det2", 0.05*cm, 0.1*cm, (L_tube-2*d_front-detD)/2, 0*deg, 360*deg);
+
+    G4LogicalVolume*logicdet2 = new G4LogicalVolume(det2, alum_mat, "det2");
+
+    G4VisAttributes*logicVisdet2 = new G4VisAttributes(G4Colour(0.7, 0.5, 5));
+
+    logicdet2->SetVisAttributes(logicVisdet2);
+
+    new G4PVPlacement(0,
+                      det2_pos,
+                      logicdet2,
+                      "det2",
+                      logicWorld,
+                      false,
+                      0);
+
+    G4ThreeVector det3_pos = G4ThreeVector(detX, detY, (detZ-d_front-detD/2-(L_tube-2*d_front-detD)/2));
+
+    G4Tubs*det3 = new G4Tubs("det3", 0.1*cm, R_front-0.1*cm, (L_tube-2*d_front-detD)/2, 0*deg, 360*deg);
+
+    G4LogicalVolume*logicdet3 = new G4LogicalVolume(det3, teflon_mat, "det3");
+
+    G4VisAttributes*logicVisdet3 = new G4VisAttributes(G4Colour(1, 1, 1));
+
+    logicdet3->SetVisAttributes(logicVisdet3);
+
+    new G4PVPlacement(0,
+                      det3_pos,
+                      logicdet3,
+                      "det3",
+                      logicWorld,
+                      false,
+                      0);
+
+    G4ThreeVector det4_pos = G4ThreeVector(detX, detY, (detZ-(detD/2)-(d_front/2)));
+
+    G4Tubs*det4 = new G4Tubs("det4", R_front-0.1*cm, R_front, d_front/2, 0*deg, 360*deg);
+
+    G4LogicalVolume*logicdet4 = new G4LogicalVolume(det4, teflon_mat, "det4");
+
+    G4VisAttributes*logicVisdet4 = new G4VisAttributes(G4Colour(1, 1, 1));
+
+    logicdet4->SetVisAttributes(logicVisdet4);
+
+    new G4PVPlacement(0,
+                      det4_pos,
+                      logicdet4,
+                      "det4",
+                      logicWorld,
+                      false,
+                      0);*/
 
     return physWorld;
 }

@@ -31,12 +31,12 @@ public:
 
     void AddEvent3(G4double energy3);
 
-    int nStep = 100;
-    G4double Emax = 10.0*MeV;
+    int nStep = 5000;
+    G4double Emax = 20.0*MeV;
 //    double a = 0.00001;
 //    double b = 0.000002;
     double w = 13.1;
-    double F = 220;
+    double F = 22;
 
     void SetNewResPath(G4String newPath);
 

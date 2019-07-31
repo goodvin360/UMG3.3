@@ -96,7 +96,7 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
         Energy[i] = E;
         Counts[i] = Cnt;
         Counts[0] = 0.001;
-        Energy[0] = 0.01;
+        Energy[0] = 0.001;
     }
 
     infile1.close();
@@ -180,7 +180,7 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
 
     for (int i = 0; i < nStep; i++) { delete[] P1[i]; }
 
-    delete [] Energy;
+
     delete [] Counts;
     delete [] NormCounts;
     delete [] NormCounts_1;
@@ -188,14 +188,17 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
 
     int Nchan = nStep;
 
-    double *counts = new double[Nchan];
 
-    double *countsSum = new double[Nchan];
-
-    for (int i=1; i<=Nchan; i++)
-    {
-        countsSum[i]=0;
+    auto Sum = new double *[nStep];
+    for (int i = 0; i < nStep; i++) {
+        Sum[i] = new double[21];
     }
+
+    for (int i = 0; i<nStep; i++)
+    {
+        Sum[i][0] = Energy[i];
+    }
+
 
 
     char label1 [ ] = "/mnt/hgfs/VMplayer/UMG3.3/Res_";
@@ -209,7 +212,7 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
 
     char SpectraPath [256];
 
-    for (int j=1; j<=Nchan; j++)
+    for (int j=1; j<=20; j++)
     {
         sprintf (SpectraPath, "%s%i%s", label1, j, ".txt");
 
@@ -221,23 +224,30 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
         for (int i=0; i<Nchan; i++)
         {
             readFile >> count;
-            counts[i] = count;
-            countsSum[j] +=counts[i];
+            Sum[i][j] = count;
+            count =0;
         }
         readFile.close();
 
     }
 
-    fstream fout6(OutPath, ios::out);
+    fstream fout6("/mnt/hgfs/VMplayer/UMG3.3/Summ.txt", ios::out);
 
-    for (int j=1; j<=Nchan; j++)
+    for (int i=0; i<Nchan; i++)
     {
-        fout6 << countsSum[j] << endl;
+        for (int j=0; j <=20; j++)
+        {fout6 << Sum[i][j] << " ";}
+
+        fout6 << endl;
     }
+
+
+
     fout6.close();
 
-    delete [] counts;
-    delete [] countsSum;
+    delete [] Energy;
+
+    for (int i = 0; i < nStep; i++) { delete[] Sum[i]; }
 
 
 }
