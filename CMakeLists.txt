@@ -30,6 +30,7 @@ set(EXAMPLEB1_SCRIPTS
         run.mac
         run1.mac
         run2.mac
+        run3.mac
         )
 
 foreach(_script ${EXAMPLEB1_SCRIPTS})

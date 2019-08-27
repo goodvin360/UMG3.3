@@ -24,7 +24,7 @@ void StepAct::UserSteppingAction(const G4Step *aStep)
 
 
     if
-       (aStep->GetTrack()->GetVolume()->GetLogicalVolume()->GetName() =="Diamond")   //this is counter with Cd shielding
+       (aStep->GetTrack()->GetVolume()->GetLogicalVolume()->GetName() =="Diamond")
 
     {
         event->AddEnDep2(aStep->GetTotalEnergyDeposit());

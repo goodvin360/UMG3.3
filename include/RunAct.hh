@@ -36,7 +36,7 @@ public:
 //    double a = 0.00001;
 //    double b = 0.000002;
     double w = 13.1;
-    double F = 22;
+    double F = 12;
 
     void SetNewResPath(G4String newPath);
 

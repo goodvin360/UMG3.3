@@ -191,7 +191,7 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
 
     auto Sum = new double *[nStep];
     for (int i = 0; i < nStep; i++) {
-        Sum[i] = new double[21];
+        Sum[i] = new double[102];
     }
 
     for (int i = 0; i<nStep; i++)
@@ -212,7 +212,7 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
 
     char SpectraPath [256];
 
-    for (int j=1; j<=20; j++)
+    for (int j=1; j<=101; j++)
     {
         sprintf (SpectraPath, "%s%i%s", label1, j, ".txt");
 
@@ -235,7 +235,7 @@ void RunAct::EndOfRunAction(const G4Run *aRun)
 
     for (int i=0; i<Nchan; i++)
     {
-        for (int j=0; j <=20; j++)
+        for (int j=0; j <=101; j++)
         {fout6 << Sum[i][j] << " ";}
 
         fout6 << endl;

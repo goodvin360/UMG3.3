@@ -1,5 +1,5 @@
-//#define OuterSpectra
-#define SingleEnergy
+#define OuterSpectra
+//#define SingleEnergy
 
 #ifndef CPROJECT_PRIMARYGEN_HH
 #define CPROJECT_PRIMARYGEN_HH
@@ -83,9 +83,9 @@ private:
 
     }
 
-    G4double U = 0.1;
+    G4double U = 14;
 
-    G4String outerspectrapath = "/home/user/CLionProjects/UMG3.3/Fission(100bin).txt";
+    G4String outerspectrapath = "/home/user/CLionProjects/UMG3.3/NGspectra.txt";
 
     G4String theEnd = "gun.txt";
 
