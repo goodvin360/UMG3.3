@@ -1,24 +1,13 @@
-/my_dir1/SetNewResPath /mnt/hgfs/VMplayer/UMG3.3/Res_1.txt
-/my_dir3/SetNewPatEn 10.08
+/my_dir1/SetNewResPath /mnt/hgfs/VMplayer/UMG3.3/Res_6.5.txt
+/my_dir3/SetNewPatEn 6.5
 /my_dir2/SetCountsStep 100000
-/run/beamOn 100000000
+/run/beamOn 50000000
 
-/my_dir1/SetNewResPath /mnt/hgfs/VMplayer/UMG3.3/Res_2.txt
-/my_dir3/SetNewPatEn 11.43
-/run/beamOn 100000000
+/my_dir1/SetNewResPath /mnt/hgfs/VMplayer/UMG3.3/Res_7.0.txt
+/my_dir3/SetNewPatEn 7
+/run/beamOn 50000000
 
-/my_dir1/SetNewResPath /mnt/hgfs/VMplayer/UMG3.3/Res_3.txt
-/my_dir3/SetNewPatEn 12.61
-/run/beamOn 100000000
+/my_dir1/SetNewResPath /mnt/hgfs/VMplayer/UMG3.3/Res_7.5.txt
+/my_dir3/SetNewPatEn 7.5
+/run/beamOn 50000000
 
-/my_dir1/SetNewResPath /mnt/hgfs/VMplayer/UMG3.3/Res_4.txt
-/my_dir3/SetNewPatEn 13.71
-/run/beamOn 100000000
-
-/my_dir1/SetNewResPath /mnt/hgfs/VMplayer/UMG3.3/Res_5.txt
-/my_dir3/SetNewPatEn 14.96
-/run/beamOn 100000000
-
-/my_dir1/SetNewResPath /mnt/hgfs/VMplayer/UMG3.3/Res_6.txt
-/my_dir3/SetNewPatEn 16.01
-/run/beamOn 100000000

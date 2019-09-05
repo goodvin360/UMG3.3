@@ -340,15 +340,15 @@ G4VPhysicalVolume* DetGeometry::Construct(){
 
     G4NistManager* nist = G4NistManager::Instance();
 
-    G4double size = 0.5*m;
+    G4double size = 0.21*m;
 
-    G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
+    G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
 //    G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
 
     G4Box* solidWorld =
             new G4Box("World",
-                      0.5*size, 0.5*size, 0.5*size);
+                      0.1*size, 0.1*size, 0.5*size);
 
     G4LogicalVolume* logicWorld =
             new G4LogicalVolume(solidWorld,
@@ -410,7 +410,7 @@ G4VPhysicalVolume* DetGeometry::Construct(){
 
     detX = 0*cm;
     detY = 0*cm;
-    detZ = -1*cm;
+    detZ = -10*cm;
     detL = 0.25*cm;
     detD = 0.03*cm;
     R_front = 0.4*cm;
