@@ -342,8 +342,8 @@ G4VPhysicalVolume* DetGeometry::Construct(){
 
     G4double size = 0.21*m;
 
-    G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
-//    G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
+//    G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
+    G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
 
     G4Box* solidWorld =
@@ -401,24 +401,46 @@ G4VPhysicalVolume* DetGeometry::Construct(){
 
     G4Material*diam_mat2 = nist->FindOrBuildMaterial("G4_C");
 
+    G4Material*void_mat = nist->FindOrBuildMaterial("G4_Galactic");
+
     //define distances
 
     G4double detX, detY, detZ,
             detD, detL,
-            L_tube, dr_tube,
-            R_front, r_front, d_front;
+            Xsrc, Ysrc, Zsrc;
 
     detX = 0*cm;
     detY = 0*cm;
     detZ = -10*cm;
     detL = 0.25*cm;
     detD = 0.03*cm;
-    R_front = 0.4*cm;
-    r_front = 0.1*cm;
-    d_front = 0.05*cm;
-    L_tube = 1.5*cm;
-    dr_tube = 0.05*cm;
+    Xsrc = 0*cm;
+    Ysrc = 0*cm;
+    Zsrc = 0*cm;
 
+
+
+    // create an SOURSE
+
+    G4ThreeVector Source_pos = G4ThreeVector(Xsrc, Ysrc, Zsrc);
+
+    G4Tubs*Source = new G4Tubs("Source", 0*cm, 1.6*cm, 0.1*cm, 0*deg, 360*deg);
+
+    G4LogicalVolume*logicSource = new G4LogicalVolume(Source, void_mat, "Source");
+//    G4LogicalVolume*logicSource = new G4LogicalVolume(Source, nist->FindOrBuildMaterial("G4_Galactic"), "Source");
+
+    G4VisAttributes*logicVisSource = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0));
+
+    logicSource->SetVisAttributes(logicVisSource);
+
+
+    new G4PVPlacement(0,
+                      Source_pos,
+                      logicSource,
+                      "Source",
+                      logicWorld,
+                      false,
+                      0);
 
     //define diamond detector
 
@@ -439,6 +461,8 @@ G4VPhysicalVolume* DetGeometry::Construct(){
                       logicWorld,
                       false,
                       0);
+
+
 
    /* G4ThreeVector Front_pos = G4ThreeVector(detX, detY, (detZ+(detD/2)+(d_front/2)));
 

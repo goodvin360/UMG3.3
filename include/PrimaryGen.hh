@@ -85,7 +85,7 @@ private:
 
     G4double U = 14;
 
-    G4String outerspectrapath = "/home/user/CLionProjects/UMG3.3/NGspectra.txt";
+    G4String outerspectrapath = "/home/user/CLionProjects/UMG3.3/NGspectra_14.7.txt";
 
     G4String theEnd = "gun.txt";
 
