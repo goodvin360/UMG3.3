@@ -1,4 +1,4 @@
-/my_dir1/SetParticleCounts 5000000
+/my_dir1/SetParticleCounts 10000000
 /my_dir2/SetCountsStep 100000
-/run/beamOn 5000000
+/run/beamOn 10000000
 
